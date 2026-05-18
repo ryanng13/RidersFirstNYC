@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Riders First</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      html {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: linear-gradient(
+          135deg,
+          rgba(216, 34, 51, 0.25),
+          rgba(0, 153, 82, 0.25),
+          rgba(154, 56, 161, 0.25),
+          rgba(0, 98, 207, 0.25),
+          rgba(238, 104, 0, 0.25),
+          rgba(121, 149, 52, 0.25),
+          rgba(142, 92, 51, 0.25),
+          rgba(124, 133, 140, 0.25),
+          rgba(246, 188, 38, 0.25)
+        );
+        color: #000;
+        min-height: 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+      }
+
+      /* =====================
+        FOOTER
+      ====================== */
+      footer {
+        position: fixed;
+        color: black;
+        bottom: 0;
+        width: 100%;
+        text-align: left;
+      }
+
+      .fa {
+        text-align: center;
+        text-decoration: none;
+      }
+
+      .fa:hover {
+        opacity: 0.7;
+      }
+
+      .fa-linkedin {
+        color: #0a66c2;
+      }
+
+      /* =====================
+        NAVIGATION
+      ====================== */
+
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 18px;
+        background: #e7e9fe;
+        backdrop-filter: blur(6px);
+      }
+
+      .hamburger {
+        font-size: 2rem;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        flex-direction: column;
+        padding: 15px;
+        gap: 10px;
+        background: #e7e9fe;
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .nav-menu button {
+        padding: 14px;
+        border-radius: 8px;
+        border: none;
+        background: transparent;
+        font-size: 1rem;
+        cursor: pointer;
+      }
+
+      .nav-menu button:hover {
+        background: rgba(0,0,0,0.08);
+      }
+
+      /* =====================
+        PAGE SECTIONS
+      ====================== */
+
+      .section {
+        display: none;
+        max-width: 960px;
+        margin: auto;
+        padding: 32px 18px;
+      }
+
+      .section.active {
+        display: block;
+      }
+
+      h1 {
+        font-size: clamp(1rem, 4vw, 1.5rem);
+      }
+
+      h3, p, strong, ul {
+        line-height: 1.1;
+        font-size: 15px;
+      }
+
+      ul {
+        list-style-position: inside;
+      }
+
+      /* =====================
+        FIX THE SUBNAV
+      ====================== */
+
+      .sub-nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      .sub-nav button {
+        padding: 10px 14px;
+        border-radius: 6px;
+        border: none;
+        background: #e7e9fe;
+        cursor: pointer;
+        font-size: 0.95rem;
+      }
+
+      .sub-nav button:hover {
+        background: rgba(0,0,0,0.08);
+      }
+
+      .sub-page {
+        display: none;
+      }
+
+      .sub-page.active {
+        display: block;
+      }
+
+      /* =====================
+        PHOTOGRAPHY
+      ====================== */
+
+      .site-logo {
+        width: auto;
+        height: 40px;
+      }
+
+      .image-box {
+        width: 100%;
+        height: 200px;
+        display: top;
+        justify-content: flex-start; /* align left */
+        align-items: center; /* optional: vertical centering */
+        overflow: hidden;
+      }
+
+      .image-box img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      .img-box {
+        width: 100%;
+        height: 1000px;
+        display: top;
+        justify-content: flex-start; /* align left */
+        align-items: center; /* optional: vertical centering */
+        overflow: hidden;
+      }
+
+      .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+      }
+
+      /* =====================
+        DESKTOP
+      ====================== */
+
+      @media (min-width: 768px) {
+        .hamburger { display: none; }
+
+        nav {
+          justify-content: center;
+          gap: 32px;
+        }
+
+        .nav-menu {
+          display: flex;
+          position: static;
+          flex-direction: row;
+          background: none;
+          width: auto;
+          padding: 0;
+        }
+
+        .nav-menu button {
+          padding: 10px 16px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+
+  <!-- =====================
+      NAV
+  ===================== -->
+
+  <nav>
+    <div class="site-name"><img class="site-logo" src="Logo.png"></div>
+
+    <button class="hamburger" onclick="toggleMenu()">☰</button>
+
+    <div class="nav-menu" id="nav-menu">
+      <button onclick="showSection('home'); closeMenu()">Home</button>
+      <button onclick="showSection('fixthesubway'); closeMenu()">Cost-Effective Fixes</button>
+      <button onclick="showSection('expansions'); closeMenu()">Capital Program Projects</button>
+      <button onclick="showSection('factsandmyths'); closeMenu()">Facts and Myths</button>
+      <button onclick="showSection('references'); closeMenu()">Works Cited</button>
+    </div>
+  </nav>
+
+  <!-- =====================
+      HOME
+  ===================== -->
+
+  <div id="home" class="section active">
+    <h1>Hello, this is Ryan.</h1>
+    </br>
+    <div class="image-box">
+      <img src="Ryan.png">
+    </div>
+    </br>
+    <p>As a longtime New Yorker, I have been passionate about improving the City through better transit planning and transit-oriented development. This website is my project to explore, document, and share ideas on how thoughtful transit investments can create more livable, equitable, and sustainable neighborhoods across the five boroughs. My long-term goal is to build a career in urban planning—or a closely related field—in the City of New York, where I can help shape policies and projects that make public transportation the backbone of a thriving, accessible metropolis. Through this website, I aim to contribute to the City's transit future. Welcome, and thank you for stopping by.</p>
+    </br>
+    <footer>
+      <a href="https://www.linkedin.com/in/ryanng99/" class="fa fa-linkedin"><a style="font-family: Arial, Helvetica, sans-serif;"></a></a>
+      <div style="padding: 5px;"></div>
+    </footer>
+  </div>
+
+  <!-- =====================
+      DEINTERLINING
+  ===================== -->
+
+  <div id="fixthesubway" class="section">
+
+    <div class="sub-nav">
+      <button class="active" onclick="showSubPage('deinterlining')">Deinterlining</button>
+      <button onclick="showSubPage('otherimprovements')">Other Improvements</button>
+      <button onclick="showSubPage('endgame')">Endgame</button>
+    </div>
+
+    <!-- DEINTERLINING -->
+    
+    <div id="deinterlining" class="sub-page active">
+      <h1>Deinterlining</h1>
+      </br>
+      <p>This practice involves separating tangled, interdependent train routes so each runs a simpler, more self-contained pattern. It reduces delays by preventing one late train from cascading across multiple lines. Here are three interlockings that can greatly benefit:</p>
+      </br>
+      <h3>59th Street Junction</h3>
+      </br>
+      <p>From an urban planning perspective, the 59th Street–Columbus Circle station complex represents a deliberate integration of the Broadway–Seventh Avenue and Central Park West Lines at one of Manhattan's busiest intersections. 59th Street Junction allows the A, B, C, and D to cross and connect, creating a hub that links Midtown Manhattan, Central Park, and the Upper West Side. This interlocking embodies the principle of multi-modal connectivity, serving as a gateway to cultural and commercial destinations, such as Carnegie Hall, Lincoln Center, and the Time Warner Center. Its design reflects early 20th-century urban planning priorities: maximizing access to dense urban cores while balancing local and express service. However, the interlocking's complexity also introduces operational challenges, as multiple service patterns must be coordinated in a confined underground space. In urban planning terms, 59th Street Junction illustrates the tension between network efficiency and spatial constraints, where the need for seamless transfers collides with the physical limits of track geometry and station design.</p>
+      </br>
+      <h3>DeKalb Junction</h3>
+      </br>
+      <p>DeKalb Junction is one of the most strategically important interlockings in the New York City Subway, located at the intersection of DeKalb Avenue and Flatbush Avenue. It manages flows between the Brighton and Fourth Avenue Lines, with six tracks and two island platforms. From an urban planning lens, this interlocking is a textbook case of network chokepoint management: trains bound for Manhattan via the bridge must weave across each other's paths, creating a "dance" of merges and crossings that slows operations and reduces reliability. The DeKalb Avenue station's role as a transfer hub for the B, D, N, Q, and R makes it vital for Downtown Brooklyn's accessibility, linking commercial centers, cultural institutions, and residential neighborhoods. Yet, the interlocking's complexity has long been criticized as a barrier to system efficiency, with outdated signal technology exacerbating delays. Current plans to modernize DeKalb Junction with communications-based train control (CBTC) highlight the broader urban planning goal: reducing systemic bottlenecks to improve throughput across the East River crossings. In urban planning terms, DeKalb Junction demonstrates how infrastructure modernization is essential to sustain urban growth, as the chokepoint directly impacts service reliability for over 300,000 daily riders.</p>
+      </br>
+      <h3>Nostrand Junction</h3>
+      </br>
+      <p>Nostrand Junction, located east of Franklin Avenue–Medgar Evers College in Crown Heights, is where the 2, 3, 4, and 5 intersect in a crisscross pattern that forces trains to wait for clearance, creating cascading delays across Brooklyn, Manhattan, and The Bronx. Since the 1960s, this interlocking has been identified as a bottleneck, but only now—through the MTA's 2025-2029 Capital Plan—is it being addressed with new crossover tracks and a reconfigured routing plan. From an urban planning perspective, this project exemplifies the principle of network optimization: by separating local and express flows, the system reduces conflict points, increases throughput, and enhances reliability. The benefits are not just technical; they are deeply social. Over 285,000 weekday riders, many of them working-class and low-income, will gain faster and more predictable commutes, saving over a minute per trip. This reflects the urban planning goal of transportation equity, ensuring that infrastructure investments deliver tangible improvements to communities most dependent on public transit. Moreover, by unclogging what officials call the "Crown Heights Cluster," the project strengthens the resilience of the entire subway system, reducing vulnerability to delays that ripple across boroughs. In urban planning terms, Nostrand Junction's redesign is a cost-effective capacity enhancement, balancing fiscal constraints with the imperative to modernize aging infrastructure, while reinforcing the New York City Subway's role as the backbone of the City's urban mobility.</p>
+    </div>
+
+    <!-- OTHER IMPROVEMENTS -->
+    <div id="otherimprovements" class="sub-page">
+      <h1>Other Improvements</h1>
+      </br>
+      <h3>Forest Hills–71st Avenue Terminal</h3>
+      </br>
+      <p>Improving the Forest Hills–71st Avenue terminal starts with better use of the infrastructure already in place. The four lower-level relay tracks east of that station were designed to allow yard moves and terminating trains to clear the mainline without affecting E and F train operations on the upper level. Today, only one of the four lower-level tracks is used to reverse M and R trains, forcing every terminating train into the same area. By activating a second relay track for regular operations, the terminal could process turnbacks more efficiently. That alone would ease congestion at the interlocking and reduce cascading delays that currently limit throughput on the local tracks.</p>
+      </br>
+      <h3>G Train Turnarounds</h3>
+      </br>
+      <p>G trains currently merge with the F in South Brooklyn, creating heavy congestion, bottlenecks, and frequent delays. These problems often cause mechanical breakdowns and weekend service cuts for signal work. As a result, the G runs infrequently with peak service at nine trains per hour. A smart, cost-effective fix is to extend the G from Church Avenue to Kings Highway for their turnarounds, rather than delaying F trains. The Kings Highway station in Gravesend has a center track that allows southbound trains to drop off passengers and northbound ones to pick passengers up without delaying other trains.</p>
+      </br>
+      <h3>High-Frequency Weekends</h3>
+      </br>
+      <p>Many trunk lines run no more than 15 trains per hour on weekends so track space can be allocated for major repairs and construction. Lower speeds in work zones and lighter weekend ridership let multiple services share tracks and allow long-term upgrades to proceed with fewer disruptions. With modernized signals now being installed, some trunk lines, at the very least, especially the Queens Boulevard Line, can safely return to their previous maximum weekend capacities. The new signaling technology gives trains more precise spacing and braking, allowing higher frequencies even when tracks are shared. Restoring these higher weekend schedules would dramatically improve access to jobs, recreation, and neighborhoods without adding new infrastructure or raising costs.</p>
+      </br>
+      <h3>Overnight Service</h3>
+      </br>
+      <p>Overnight subway service is currently a missed opportunity that undermines the City's 24-hour identity and forces too many night-shift workers, bar patrons, and late travelers into expensive taxis or long waits. By simply adjusting schedules so that non-overlapping services (such as the 7 and L) each run six trains per hour (every 10 minutes) while others (e.g., A) run four trains per hour (every 15 minutes), the system could deliver far more reliable coverage across the network without adding extra trains or costs. Simultaneously, keeping the 42nd Street Connection open around the clock—regardless of whether overnight 42nd Street Shuttle service ever returns—would let riders move seamlessly between the 42nd Street–Bryant Park/Fifth Avenue and Times Square–42nd Street/Port Authority Bus Terminal stations in Midtown West at any hour, giving New Yorkers a true full-time transfer hub that finally matches the around-the-clock energy of the streets above. These straightforward fixes would make the subway feel like a dependable lifeline instead of a part-time service, boosting equity, safety, and economic activity for everyone who lives and works after dark.</p>
+      </br>
+      <h3>Simplifying J Train Operations</h3>
+      </br>
+      <p>Skip-stop service increases wait times, complicates transfers, and creates unnecessary confusion. Many commuters at skipped stations end up waiting significantly longer for a train, leading to crowding and unreliable travel patterns. Historical experience on the Jamaica Line has shown that intended time savings rarely outweigh the inconvenience it imposes on most riders. Given these issues, eliminating the Z and reallocating its resources to run more frequent J service during peak hours could provide a clearer, more dependable service pattern. This approach would prioritize consistent service over a complicated pattern that benefits over 413,000 people nearby.</p>
+    </div>
+
+    <!-- ENDGAME -->
+    <div id="endgame" class="sub-page">
+      <h1>Endgame</h1>
+      </br>
+      <p><b>Why wait?</b></p>
+      </br>
+      <p>The New York City Subway has bottlenecks that constrain throughput. As a result, peak service frequencies are limited to the following approximate levels: the J and Z at six trains per hour each; C and W at seven each; B at eight; G, M, and N at nine each; 2, 3, D, Q, and R at 10 each; 5 at 12; 4 and A at 13 each; and F at 14. These constraints directly limit systemwide passenger capacity and reliability without expansion.</p>
+      </br>
+      <p>By reconfiguring service patterns and signaling logic—without major construction—urban planners can achieve substantial gains: the C, G, J, and M to 10 trains per hour each; 2 and 3 to 12 each; B, D, N, and Q to 15 each; and E and new K (combined) to 20. To maintain a balanced overall rolling-stock fleet amid limited car availability, modest trade-offs are required: peak service on the 4 and 5 can be trimmed to 12 trains per hour each, the A and F can be reduced to 10 trains per hour each at peak times, and the W can be eliminated. These adjustments strengthen frequencies on many lines and free subway cars to support higher densities elsewhere, delivering a more efficient, higher-capacity network through operational changes alone.</p>
+      </br>
+      <p>This QGIS-based map shows how the subway can be redesigned:</p>
+      <div class="img-box">
+        <a href="https://drive.google.com/file/d/1-8O-29J3I7DxcHYe2If1a0TLx7CKYmsk/view?usp=sharing"><img src="Map.png"></a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- =====================
+      Capital Program Projects
+  ===================== -->
+
+  <div id="expansions" class="section">
+    <h1>Capital Program Projects</h1>
+    </br>
+    <h3>142nd Street Junction</h3>
+    </br>
+    <p>From an urban planner's perspective, the core issue at 142nd Street Junction is that the current track layout forces the southbound 2 and northbound 3 trains to rely on the same constrained infrastructure. Anytime one train is delayed, the other inherits that delay, creating a fragile operating environment in one of the New York City Subway's busiest corridors. Interlining like this limits throughput because dispatchers must leave extra buffer time between trains to avoid conflicts, which means fewer trains per hour and longer waits for riders. In a dense transit network where reliability is as important as raw capacity, a chokepoint like this undermines subway service performance. It reduces the system's ability to absorb routine fluctuations in demand.</p>
+    </br>
+    <p>Deinterlining through a southbound flyunder and a reconstructed 135th Street station in Harlem would give urban planners a cleaner, more resilient operating pattern. By running a dedicated Lenox Avenue Shuttle between Harlem–148th Street and 135th Street, the proposal removes the problematic merge entirely, allowing the 2 and 3 to run more independently and predictably. This kind of targeted capital project is attractive because it improves reliability without requiring a full-scale subway line rebuild or major service upheaval. It aligns with broader planning goals: simplifying service patterns, reducing cascading delays, and ensuring that infrastructure supports—not constrains—the level of frequency a growing City needs.</p>
+    </br>
+    <h3>Cross Bronx Subway</h3>
+    </br>
+    <p>Extending the Washington Heights Line from it current terminus at Inwood–207th Street into the Bronx would give more than 40,000 Bronxites a fast, reliable transit option, directly linking them to Upper Manhattan without depending on slow or overcrowded buses. By adding stations along Fordham Road, Pelham Parkway, and Stillwell Avenue/Astor Avenue, the extension would place rapid transit within walking distance of several dense residential and commercial corridors. From an urban planning standpoint, this strengthens transit equity by serving neighborhoods historically underserved by subway infrastructure, while also supporting local economic activity along these major east-west corridors.</p>
+    </br>
+    <p>The extension would also meaningfully reduce pressure on the Bx12 and Bx12 Select Bus Service, two of the City's busiest bus routes. With a subway alternative absorbing a share of riders, buses could operate more efficiently, improving reliability for those who still depend on them. Fewer people relying on cars for cross-borough travel would ease congestion on Fordham Road and the Bronx's arterial streets, improving air quality and street safety. Overall, this project aligns with long-term planning goals: reducing car dependency, expanding high-capacity transit to underserved areas, and creating a more connected, sustainable Bronx.</p>
+    </br>
+    <h3>East Queens</h3>
+    </br>
+    <p>Extending the Archer Avenue Line from its current terminus at Jamaica Center–Parsons/Archer along Merrick Boulevard and Linden Boulevard to Cambria Heights represents a smart, equity-focused investment in Queens' transit network. This relatively short extension would bring reliable subway service to a densely populated residential corridor that currently depends on slower buses, directly benefiting over 12,500 people. By knitting Cambria Heights into the core subway system, the project would reduce car dependency, ease congestion on local roads, stimulate local business activity, and promote more balanced growth across southeast Queens—all classic goals of good urban planning.</p>
+    </br>
+    <p>Extending the Hillside Avenue Line from its current terminus at Jamaica–179th Street along Hillside Avenue to Springfield Boulevard is a practical way to close a stubborn service gap in Queens. The modest extension would deliver direct subway access to neighborhoods now served only by buses, benefiting over 9,100 people. In urban planning terms, this change would cut travel times, make housing in the area more attractive and affordable, support local economic vitality, and help distribute transit capacity more fairly across the borough—hallmarks of thoughtful, people-centered urban design.</p>
+    </br>
+    <h3>LaGuardia Extension and New Yard</h3>
+    </br>
+    <p>Extending the Astoria Line to LaGuardia Airport would fill one of the most conspicuous gaps in New York City's transit network by finally linking a major airport directly to the subway system. This kind of rail-airport connection is not just a convenience upgrade—it reshapes travel behavior. A one-seat ride dramatically reduces the friction of using transit for airport access, shifting a portion of trips away from cars and buses and easing pressure on local streets that currently absorb heavy volumes of taxis and rideshares. It also strengthens regional labor mobility by giving airport employees a faster, more reliable commute, which is especially important for a 24-hour employer. In broader network terms, the extension would knit the airport into the City's high-capacity transit grid, improving the overall coherence and competitiveness of the region's transportation system.</p>
+    </br>
+    <p>Equally important is the operational capacity unlocked by the creation of a new subway yard along the extended alignment. The Astoria Line today operates without a dedicated subway yard, forcing the MTA to rely on distant facilities for storage and maintenance. This constrains scheduling flexibility and limits the number of trains that can be deployed on the Broadway Line. A purpose-built yard would allow for more efficient train staging, quicker turnarounds, and better fleet management, all of which translate into higher throughput and improved reliability. In practice, this means the extension is not just a service expansion but a system optimization: by relieving a long-standing operational bottleneck, it enables more frequent and resilient service across a corridor that carries hundreds of thousands of riders daily.</p>
+    </br>
+    <h3>Rockaway Beach Branch</h3>
+    </br>
+    <p>A proposal to reactivate the long-abandoned Rockaway Beach Branch would create Queens' first true north-south transit corridor. It would link Elmhurst and Rego Park directly to the Rockaways with four new stations serving multiple subway lines and the Long Island Rail Road. The plan includes 33 acres of new parkland and dedicated bicycle paths while serving nearly 23,000 people within a quarter-mile of a proposed station. It would shorten commutes for residents traveling to Downtown Brooklyn and Long Island City and help ease chronic congestion on major boulevards. A federal grant awarded to study its impacts indicates that the concept is ready for serious planning.</p>
+    </br>
+    <p>The reactivation concept provides both transit improvements and new open space rather than choosing one at the expense of the other. Converting the entire right-of-way into a park alone would offer recreational benefits, but would not deliver new north-south rail service or reduce long car and bus trips. Maintaining the corridor for rail use supports daily commuters, expands equitable job access, reduces traffic, and still adds the same 33 acres of parkland and bicycle paths—offering a more complete, future-oriented approach to mobility, equity, and livability in the borough.</p>
+    </br>
+    <h3>Second Avenue Subway</h3>
+    </br>
+    <p>The "Q train" plays a crucial role in New York City's transit network because it links dense residential areas like Yorkville with major job centers in Manhattan while also providing fast, reliable trips to Coney Island. Its express service through Manhattan's core helps reduce travel times for hundreds of thousands of daily riders, and its reach—placing them within a short walk of a station—shows how essential it is for equitable access to jobs, services, and recreation. From an urban planning perspective, this kind of high-capacity, high-frequency corridor is exactly what supports sustainable growth: it reduces car dependency, strengthens neighborhood connectivity, and anchors transit-oriented development along the Second Avenue corridor.</p>
+    </br>
+    <p>Looking ahead, the Second Avenue Subway's planned extensions reflect a broader strategy to expand transit into underserved areas while avoiding costly engineering conflicts. In Phase Two, extending the Q to Harlem–125th Street can bring rapid transit to over 33,000 more people, and proposals for T service in the Bronx would further improve regional mobility and yard access. In Phase Three, shifting three stations one block east to First Avenue would better serve major hospitals and workplaces while reducing construction risks. Connecting Phase Four to the existing Nassau Street Line in the Financial District would cut costs by using existing infrastructure rather than building deep new stations in the Financial District. Together, these choices show how to balance community needs, engineering feasibility, and long-term system efficiency when shaping the future of New York City's subway network.</p>
+    </br>
+    <h3>Utica Avenue Subway</h3>
+    </br>
+    <p>Building a subway line down Utica Avenue would give one of Brooklyn's busiest transit corridors the high-capacity service it has long needed. The MTA's Utica Avenue Transit Improvements Study notes that the B46 and B46 Select Bus Service together carry around 13,900 daily riders, making them among the busiest bus routes in the borough. A subway extension from the existing Crown Heights–Utica Avenue station to Kings Plaza—adding six intermediate stops—would directly serve dense neighborhoods that currently rely heavily on buses and have limited rapid-transit access. These communities mirror the broader pattern identified by regional planners: Southeast Brooklyn contains large, transit-dependent populations living far from subway stations, where improved rail access would meaningfully expand access to jobs and services.</p>
+    </br>
+    <p>This extension would also help rebalance mobility along the corridor. Utica Avenue experiences heavy traffic congestion, and the current bus network—despite Select Bus Service upgrades—struggles to keep pace with demand. A subway line would shift thousands of riders from surface streets to high-capacity rail, reducing bus overcrowding and easing pressure on the roadway. Planners have long recognized that Utica Avenue is a "dense, transit-dependent corridor" where subway service "makes too much sense," and recent capital-planning discussions continue to highlight it as a priority for future expansion. By providing faster, more reliable travel and strengthening connections to the broader network, the extension would significantly improve daily mobility for more than 20,400 Brooklynites while supporting long-term growth and equity goals.</p>
+    </br>
+    <p>This QGIS-based map illustrates how the subway can operate eventually:</p>
+    <div class="img-box">
+      <a href="https://drive.google.com/file/d/1YgIXmVIUDJ42hSlQPObgOsfA7sJdGiDl/view?usp=sharing"><img src="FutureMap.png"></a>
+    </div>
+  </div>
+
+  <!-- =====================
+      FACTS AND MYTHS
+  ===================== -->
+
+  <div id="factsandmyths" class="section">
+    <h1>Facts and Myths</h1>
+    </br>
+
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Deinterlining means cutting service or removing lines.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Deinterlining reorganizes routes but preserves full geographic coverage while making trains more reliable.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Fixing bottlenecks needs billions in construction.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Most improvements rely on schedule redesigns and a few strategic crossovers, not new tunnels or flyovers.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Throughput is capped no matter what, so changing patterns will not help.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Removing merging conflicts directly increases the number of trains per hour the system can handle.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Creating changes would make the subway system more confusing for riders.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Simplified, straighter service patterns are easier to understand than today's tangle of interlined routes.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Operational fixes cannot meaningfully improve capacity without more subway cars.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Rebalancing frequencies and eliminating conflict points frees enough rolling stock to boost service where it is most needed.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Deinterlining would require massive reconstruction across the City.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> The core fixes rely on targeted junction redesigns and reroutes, not rebuilding across the City.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Extensions would only help a small number of riders.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Each extension can serve tens of thousands of people in dense, transit-dependent neighborhoods that currently other transit besides overcrowded buses.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Reactivating the Rockaway Beach Branch means sacrificing parkland.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> There can be a corridor featuring both rail service and 33 acres of new park space.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Redesigning the subway network would confuse riders.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Removing merge points actually simplifies service patterns and makes train operations more predictable.</p>
+    </br>
+    <p><span style='font-size:9px;'>&#10060;</span> <strong>Myth:</strong> Capital Program improvements would not meaningfully reduce delays or increase capacity.</p>
+    <p><span style='font-size:9px;'>&#9989;</span> <strong>Fact:</strong> Eliminating reverse branching and merge conflicts directly increases throughput and cuts cascading delays across entire corridors.</p>
+
+  </div>
+
+  <!-- =====================
+      WORKS CIRED
+  ===================== -->
+
+  <div id="references" class="section">
+    <h1>Works Cited</h1>
+    </br>
+    <p>
+      This page lists public and verifiable sources that support urban planning and operations concepts
+      discussed throughout this website.
+    </p>
+    </br>
+    <h3>Data Sources</h3>
+    <ul>
+      <li>
+        MTA Developer Resources —
+        <a href="https://www.mta.info/developers" target="_blank" rel="noopener">
+          Static GTFS feeds and developer documentation
+        </a>
+      </li>
+      <li>
+        United States Census Bureau —
+        <a href="https://onthemap.ces.census.gov" target="_blank" rel="noopener">
+          OnTheMap
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Deinterlining and Service Design</h3>
+    <ul>
+      <li>
+        Pedestrian Observations (Alon Levy) —
+        <a href="https://pedestrianobservations.com/2018/06/12/how-deinterlining-can-improve-new-york-city-transit/" target="_blank" rel="noopener">
+          How Deinterlining Can Improve New York City Transit
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Interborough Express</h3>
+    <ul>
+      <li>
+        ibx.transitcosts.com —
+        <a href="https://ibx.transitcosts.com/ibx-posts/the-interborough-express-study/" target="_blank" rel="noopener">
+          The Interborough Express Study
+        </a>
+      </li>
+      <li>
+        MTA Projects —
+        <a href="https://www.mta.info/project/interborough-express/" target="_blank" rel="noopener">
+          Interborough Express (official project page)
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Rockaway Beach Branch Corridor</h3>
+    <ul>
+      <li>
+        MTA Projects —
+        <a href="https://www.mta.info/project/reactivating-rockaway-beach-branch/" target="_blank" rel="noopener">
+          Reactivating the Rockaway Beach Branch (official project page)
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Second Avenue Subway</h3>
+    <ul>
+      <li>
+        Federal Transit Administration (FTA) —
+        <a href="https://www.transit.dot.gov/funding/grants/grant-programs/capital-investments/second-avenue-subway-phase-2-engineering-0" target="_blank" rel="noopener">
+          Second Avenue Subway Phase 2 Engineering Profile
+        </a>
+      </li>
+      <li>
+        MTA Projects —
+        <a href="https://www.mta.info/project/second-avenue-subway-phase-2/" target="_blank" rel="noopener">
+          Second Avenue Subway Phase 2 (official project page)
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Transit Capacity Methodology</h3>
+    <ul>
+      <li>
+        National Academies Press —
+        <a href="https://www.nationalacademies.org/publications/24766" target="_blank" rel="noopener">
+          TCQSM (TCRP Report 165) publication landing page
+        </a>
+      </li>
+      <li>
+        Transportation Research Board (TRB), TCRP Report 165 —
+        <a href="https://onlinepubs.trb.org/onlinepubs/tcrp/tcrp_rpt_165ch-01.pdf" target="_blank" rel="noopener">
+          Transit Capacity and Quality of Service Manual (TCQSM), 3rd Edition (Chapter PDF)
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Transit Modernization and Context</h3>
+    <ul>
+      <li>
+        AIA New York — <a href="https://www.aiany.org/wp-content/uploads/2018/06/NYCT-Fast-Forward-Plan-Statement-on-Letterhead.pdf" target="_blank" rel="noopener">
+          New York City Transit's Fast Forward Plan (statement PDF)
+        </a>
+      </li>
+      <li>
+        MTA 20-Year Needs Assessment —
+        <a href="https://future.mta.info/" target="_blank" rel="noopener">
+          MTA 20-Year Needs Assessment
+        </a>
+      </li>
+      <li>
+        MTA 2025-2029 Capital Plan —
+        <a href="https://future.mta.info/capitalplan/" target="_blank" rel="noopener">
+          MTA 2025-2029 Capital Plan
+        </a>
+      </li>
+      <li>
+        MTA Projects —
+        <a href="https://www.mta.info/project/cbtc-signal-upgrades/" target="_blank" rel="noopener">
+          CBTC: Upgrading signal technology (official project page)
+        </a>
+      </li>
+      <li>
+        NYC.gov — <a href="https://www.nyc.gov/assets/brooklyncb3/downloads/pdf/fast_forward_brooklyn.pdf" target="_blank" rel="noopener">
+          Fast Forward (NYC Transit community conversation PDF)
+        </a>
+      </li>
+    </ul>
+    </br>
+    <h3>Utica Avenue Transit</h3>
+    <ul>
+      <li>
+        MTA Projects —
+        <a href="https://www.mta.info/project/utica-avenue-transit-improvements-study" target="_blank" rel="noopener">
+          Utica Avenue Transit Improvements Study (official project page)
+        </a>
+      </li>
+    </ul>
+    </br>
+    <p>
+      <strong>Note:</strong> This website's maps and diagrams are independently produced for planning discussion and educational purposes.
+    </p>
+    </br>
+  </div>
+
+  <!-- =====================
+      SCRIPT
+  ===================== -->
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section')
+        .forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function toggleMenu() {
+      document.getElementById('nav-menu').classList.toggle('active');
+    }
+
+    function closeMenu() {
+      document.getElementById('nav-menu').classList.remove('active');
+    }
+
+    function showSubPage(id) {
+      document.querySelectorAll('.sub-page')
+        .forEach(p => p.classList.remove('active'));
+
+      document.querySelectorAll('.sub-nav button')
+        .forEach(b => b.classList.remove('active'));
+
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+
+  </body>
+</html>
